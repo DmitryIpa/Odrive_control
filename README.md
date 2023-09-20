@@ -1,6 +1,6 @@
 # Odrive_control
 This repository contains a procedure for setting up an odrive, as well as an example of how to control an odrive.
-![Image alt](https://github.com/nikrus333/odrive_bringup/raw/main/odrive.png)
+![Image alt](https://github.com/DmitryIpa/Odrive_control/blob/main/odrive.png)
 Версия odrivetool v0.6.7
 ## ИНСТРУКЦИЯ ПО НАСТРОЙКЕ ODrive v3.6
 # 1. Запускаем команду ниже для того, чтобы сбросить ODrive до настроек по умолчанию:
