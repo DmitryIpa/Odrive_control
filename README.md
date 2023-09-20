@@ -46,7 +46,8 @@ This repository contains a procedure for setting up an odrive, as well as an exa
   odrv0.axis0.encoder.config.calib_scan_distance = 360
   ```
 
-# 4. Настройка режима пинов энкодера. ОБЯЗАТЕЛЬНО ТРЕБУЕТСЯ для работы датчиков Холла. Иначе энкодер не заработает. Ниже настраиваются энкодеры для двух моторов:
+# 4. Настройка режима пинов энкодера.
+ОБЯЗАТЕЛЬНО ТРЕБУЕТСЯ для работы датчиков Холла. Иначе энкодер не заработает. Ниже настраиваются энкодеры для двух моторов:
   ```
   odrv0.config.gpio9_mode = GPIO_MODE_DIGITAL
   odrv0.config.gpio10_mode = GPIO_MODE_DIGITAL
@@ -56,7 +57,8 @@ This repository contains a procedure for setting up an odrive, as well as an exa
   odrv0.config.gpio14_mode = GPIO_MODE_DIGITAL
   ```
 
-# 5. Настройка тормозного резистора. Включаем РЕЗИСТОР и задаём ему сопротивление в Омах
+# 5. Настройка тормозного резистора. 
+Включаем РЕЗИСТОР и задаём ему сопротивление в Омах:
   ```
   odrv0.config.enable_brake_resistor = True
   odrv0.config.brake_resistance = 2
@@ -84,31 +86,33 @@ odrv0.axis0.controller.config.vel_limit - ограничение на скоро
 
 # 8. Этап калибровки. 
   1) Проверяем, чтобы параметры ниже имели значение False:
-    ```
-    odrv0.axis0.motor.config.pre_calibrated
-    odrv0.axis0.encoder.config.pre_calibrated
-    ```
+  ```
+  odrv0.axis0.motor.config.pre_calibrated
+  odrv0.axis0.encoder.config.pre_calibrated
+  ```
   2) Самый быстрый и простой способ калибровки мотора и энкодера:
-    ```
-    odrv0.axis0.requested_state = AXIS_STATE_FULL_CALIBRATION_SEQUENCE
-    ```
+  ```
+  odrv0.axis0.requested_state = AXIS_STATE_FULL_CALIBRATION_SEQUENCE
+  ```
   Что происходит? На блоке питания повышается ток. Далее должен быть звуковой сигнал ODrive, после чего двигатель начинает вращаться. Ждем, когда он повернется в обе стороны. Если двигатель замер в процессе вращения, или не подал звуковой сигнал, то используем команду ниже для проверки ошибок:
-    ```
-    dump_errors(odrv0)
-    ```
+  ```
+  dump_errors(odrv0)
+  ```
     
   Если вы - молодец, то драйвер не выдаст ошибки в консоли, ДА ЕЩЁ И РАССЧИТАЕТ ПАРАМЕТРЫ СОПРОТИВЛЕНИЯ ДВИГАТЕЛЯ И СМЕЩЕНИЯ ЭНКОДЕРА:
     ```
     odrv0.axis0.motor
     ```
   Найдите следующие строки:
+  
   error = 0x0000 (int)
   phase_inductance = 0.00033594953129068017 (float)
   phase_resistance = 0.1793474406003952 (float)
   
   И для энкодера тоже:
-  odrv0.axis0.encoder
-  
+    ```
+    odrv0.axis0.encoder
+    ```
   Найти параметр:
   phase_offset_float = 0.5126956701278687 (float)
 
@@ -125,19 +129,6 @@ odrv0.axis0.controller.config.vel_limit - ограничение на скоро
   ```
 # 10. Тест. (Значение odrv0.axis0.controller.input_vel в диапазоне от -10 до 10)
   1) Чтобы запустить двигатель, нужно ввести следующий набор параметров:
-  ```
-  odrv0.axis0.requested_state = AXIS_STATE_CLOSED_LOOP_CONTROL
-  odrv0.axis0.controller.config.control_mode = CONTROL_MODE_VELOCITY_CONTROL
-  odrv0.axis0.controller.input_vel = 10
-  ```
-  Если нужно остановить:
-  ```
-  odrv0.axis0.controller.input_vel = 0
-  odrv0.axis0.requested_state = AXIS_STATE_IDLE
-  odrv0.axis1.controller.input_vel = 0
-  odrv0.axis1.requested_state = AXIS_STATE_IDLE
-  ```
-
   ВАЖНО!
   Параметр ниже советую подогнать на собранном стэнде. Можно использовать предельный ток нагрузки из спецификации. Однако если его будет не хватать, то лучше увеличить его.
   Пример:
@@ -154,8 +145,22 @@ odrv0.axis0.controller.config.vel_limit - ограничение на скоро
   odrv0.axis0.motor.config.current_lim = 15
   ```
   Также следует упомянуть зависимость параметров odrv0.axis0.motor.config.current_lim и odrv0.axis0.motor.config.torque_constant. Лучше точно знать odrv0.axis0.motor.config.torque_constant, и под этот параметр экспериментально подобрать odrv0.axis0.motor.config.current_lim.
+  
+  Запускаем двигатель:
+  ```
+  odrv0.axis0.requested_state = AXIS_STATE_CLOSED_LOOP_CONTROL
+  odrv0.axis0.controller.config.control_mode = CONTROL_MODE_VELOCITY_CONTROL
+  odrv0.axis0.controller.input_vel = 10
+  ```
+  Если нужно остановить:
+  ```
+  odrv0.axis0.controller.input_vel = 0
+  odrv0.axis0.requested_state = AXIS_STATE_IDLE
+  odrv0.axis1.controller.input_vel = 0
+  odrv0.axis1.requested_state = AXIS_STATE_IDLE
+  ```
 
-  3) Сохраняем изменения odrv0.axis0.motor.config.current_lim
+  2) Сохраняем изменения odrv0.axis0.motor.config.current_lim
   ```
   odrv0.save_configuration()
   ```
