@@ -3,8 +3,7 @@ This repository contains a procedure for setting up an odrive, as well as an exa
 ![Image alt](https://github.com/DmitryIpa/Odrive_control/blob/main/odrive.png)
 Версия odrivetool v0.6.7
 ## ИНСТРУКЦИЯ ПО НАСТРОЙКЕ ODrive v3.6
-## В случае затруднений можно обратиться к [документации](https://docs.odriverobotics.com/v/latest/fibre_types/com_odriverobotics_ODrive.html#ODrive.Controller.ControlMode.POSITION_CONTROL):
-https://docs.odriverobotics.com/v/latest/fibre_types/com_odriverobotics_ODrive.html#ODrive.Controller.ControlMode.POSITION_CONTROL
+## В случае затруднений можно обратиться к [документации](https://docs.odriverobotics.com/v/latest/fibre_types/com_odriverobotics_ODrive.html#):
 # 1. Запускаем команду ниже для того, чтобы сбросить ODrive до настроек по умолчанию:
   ```
   odrivetool
